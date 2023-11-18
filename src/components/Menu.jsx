@@ -10,6 +10,7 @@ import {
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
+import cadastrarAtividade from "../service/activitiesController";
 
 export default function Menu() {
   const navigation = useNavigation();
@@ -31,6 +32,28 @@ export default function Menu() {
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  //cadastro de atividade
+  const [titulo, setTitulo] = useState("");
+  const [descricao, setDescricao] = useState("");
+
+  const criarAtividade = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("title", titulo);
+      formData.append("description", descricao);
+
+      const result = await cadastrarAtividade(formData);
+
+      // Faça algo com os dados retornados pela função cadastrarAtividade
+      console.log("Atividade cadastrada:", result);
+
+      // Lógica adicional, se necessário
+    } catch (error) {
+      // Trate o erro
+      console.error("Erro ao cadastrar atividade:", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -118,7 +141,7 @@ export default function Menu() {
               style={styles.input}
               placeholderTextColor="#fff"
               placeholder=" PREENCHA ESTE CAMPO"
-              onChangeText={(text) => setUsername(text)}
+              onChangeText={(text) => setTitulo(text)}
             />
             <Text style={{ color: "#ffffff", fontSize: 16 }}>
               DESCRIÇÃO DA ATIVIDADE
@@ -126,12 +149,9 @@ export default function Menu() {
             <TextInput
               style={styles.input1}
               placeholderTextColor="#fff"
-              placeholder="Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem 
-              Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum 
-              Lorem Ipsum Lorem Ipsum Lorem Ipsum "
-              onChangeText={(text) => setUsername(text)}
+              onChangeText={(text) => setDescricao(text)}
             />
-            <Text style={{ color: "#ffffff", fontSize: 16 }}>
+            {/* <Text style={{ color: "#ffffff", fontSize: 16 }}>
               ADICIONAR MEMBROS
             </Text>
             <View
@@ -181,7 +201,8 @@ export default function Menu() {
                 color={"#FED36A"}
                 style={{ marginTop: 5 }}
               />
-            </View>
+            </View> */}
+            {/*
             <Text style={{ color: "#ffffff", fontSize: 16 }}>DATA E HORA</Text>
             <View
               style={{
@@ -219,10 +240,10 @@ export default function Menu() {
                   value={time}
                   onChangeText={(text) => setTime(text)}
                 />
-              </View>
-            </View>
+              </View> 
+            </View>*/}
             <TouchableOpacity
-              onPress={() => navigation.navigate("login")}
+              onPress={criarAtividade}
               style={{
                 backgroundColor: "#FED36A",
                 width: 275,
@@ -290,7 +311,7 @@ const styles = StyleSheet.create({
   modalBody: {
     backgroundColor: "#606060",
     width: 320,
-    height: 600,
+    height: 400,
     padding: 20,
     borderRadius: 20,
   },
@@ -309,7 +330,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: "center",
     color: "#fff",
-    marginBottom: 20,
+    marginBottom: 40,
   },
   input2: {
     backgroundColor: "#464646",

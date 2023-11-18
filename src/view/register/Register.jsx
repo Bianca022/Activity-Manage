@@ -9,16 +9,40 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
+import register from "../../service/registerController";
 
-export default function Login({ navigation }) {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [mensagem, setMensagem] = useState("");
 
-  const handleLogin = () => {
-    if (username === "Bianca" && password === "123") {
-      navigation.navigate("Dashboard");
-    } else {
-      alert("Usuário inválido. Verifique a senha ou nome de usuário");
+  const navigation = useNavigation();
+
+  const handleCadastro = async () => {
+    try {
+      if (password !== confirmPassword) {
+        setMensagem("As senhas não coincidem. Por favor, verifique.");
+        return;
+      }
+
+      const result = await cadastrarUsuario(username, password);
+
+      if (result.success) {
+        // Mostra a mensagem de sucesso
+        setMensagem(
+          "Cadastro realizado com sucesso! Redirecionando para o Dashboard."
+        );
+        // Agora, após um curto intervalo, redireciona para a tela de dashboard
+        setTimeout(() => {
+          navigation.navigate("dashboard");
+        }, 2000);
+      } else {
+        setMensagem("Erro no cadastro. Por favor, tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro no cadastro:", error);
+      setMensagem("Erro ao tentar cadastrar. Por favor, tente novamente.");
     }
   };
 
@@ -52,16 +76,16 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="CONFIRMAR SENHA"
           secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={(text) => setConfirmPassword(text)}
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={handleCadastro}>
         <Text style={styles.buttonText}>CADASTRAR</Text>
       </TouchableOpacity>
       <Text style={styles.textCenter}>
         Já tem uma conta? {""}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("login")}>
           <Text
             style={{
               color: "#5E63F1",
@@ -71,7 +95,6 @@ export default function Login({ navigation }) {
               left: 2,
             }}
           >
-            {""}
             Entrar
           </Text>
         </TouchableOpacity>

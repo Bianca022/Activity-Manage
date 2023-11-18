@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
 import { useNavigation } from "@react-navigation/native";
+import login from "../../service/loginController";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -22,6 +23,22 @@ export default function Login() {
       navigation.navigate("dashboard");
     } else {
       alert("Usuário inválido. Verifique a senha ou nome de usuário");
+    }
+  };
+
+  const handleLogin1 = async () => {
+    try {
+      const result = await login(username, password);
+
+      // Lógica de sucesso no login
+      if (result.success) {
+        navigation.navigate("dashboard");
+      } else {
+        alert("Usuário inválido. Verifique a senha ou nome de usuário");
+      }
+    } catch (error) {
+      console.error("Erro no login:", error);
+      alert("Erro ao tentar fazer login. Por favor, tente novamente.");
     }
   };
 
@@ -67,7 +84,6 @@ export default function Login() {
               left: 2,
             }}
           >
-            {""}
             Cadastre-se
           </Text>
         </TouchableOpacity>
