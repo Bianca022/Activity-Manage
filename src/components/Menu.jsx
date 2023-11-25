@@ -8,12 +8,17 @@ import {
   TextInput,
 } from "react-native";
 
+import MessageComponent from "../components/MessageComponent";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-import cadastrarAtividade from "../service/activitiesController";
+import { cadastrarAtividade } from "../service/activitiesController";
 
 export default function Menu() {
   const navigation = useNavigation();
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [iconPressed, setIconPressed] = useState(false);
@@ -43,14 +48,16 @@ export default function Menu() {
       formData.append("title", titulo);
       formData.append("description", descricao);
 
+      // Adicione os console.log para verificar as informações dos inputs
+      console.log("Título da atividade:", titulo);
+      console.log("Descrição da atividade:", descricao);
+
       const result = await cadastrarAtividade(formData);
 
-      // Faça algo com os dados retornados pela função cadastrarAtividade
+      setShowSuccessMessage(true);
       console.log("Atividade cadastrada:", result);
-
-      // Lógica adicional, se necessário
     } catch (error) {
-      // Trate o erro
+      setShowErrorMessage(true);
       console.error("Erro ao cadastrar atividade:", error);
     }
   };
@@ -151,97 +158,6 @@ export default function Menu() {
               placeholderTextColor="#fff"
               onChangeText={(text) => setDescricao(text)}
             />
-            {/* <Text style={{ color: "#ffffff", fontSize: 16 }}>
-              ADICIONAR MEMBROS
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                marginTop: 20,
-                marginBottom: 20,
-              }}
-            >
-              <View style={styles.input2}>
-                <Icon
-                  name="user"
-                  size={20}
-                  style={{ marginRight: 10, color: "#fff" }}
-                />
-                <TextInput
-                  placeholder="JOÃO P"
-                  placeholderTextColor="#fff"
-                  onChangeText={(text) => setUsername(text)}
-                />
-                <Icon
-                  name="close"
-                  size={15}
-                  style={{ marginLeft: 22, color: "#fff" }}
-                />
-              </View>
-              <View style={styles.input2}>
-                <Icon
-                  name="user"
-                  size={20}
-                  style={{ marginRight: 10, color: "#fff" }}
-                />
-                <TextInput
-                  placeholder="BIANCA R"
-                  placeholderTextColor="#fff"
-                  onChangeText={(text) => setUsername(text)}
-                />
-                <Icon
-                  name="close"
-                  size={15}
-                  style={{ marginLeft: 10, color: "#fff" }}
-                />
-              </View>
-              <Icon
-                name="plus"
-                size={26}
-                color={"#FED36A"}
-                style={{ marginTop: 5 }}
-              />
-            </View> */}
-            {/*
-            <Text style={{ color: "#ffffff", fontSize: 16 }}>DATA E HORA</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                marginTop: 20,
-                marginBottom: 20,
-              }}
-            >
-              <View style={styles.input3}>
-                <Icon
-                  name="calendar"
-                  size={20}
-                  color="#ffffff"
-                  style={styles.icon}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Data"
-                  value={date}
-                  onChangeText={(text) => setDate(text)}
-                />
-              </View>
-
-              <View style={styles.input3}>
-                <Icon
-                  name="clock-o"
-                  size={20}
-                  color="#ffffff"
-                  style={styles.icon}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Hora"
-                  placeholderTextColor="#fff"
-                  value={time}
-                  onChangeText={(text) => setTime(text)}
-                />
-              </View> 
-            </View>*/}
             <TouchableOpacity
               onPress={criarAtividade}
               style={{
@@ -269,6 +185,19 @@ export default function Menu() {
           </View>
         </View>
       </Modal>
+
+      <MessageComponent
+        message="Atividade cadastrada com sucesso!"
+        type="success"
+        isVisible={showSuccessMessage}
+        onClose={() => setShowSuccessMessage(false)}
+      />
+      <MessageComponent
+        message="Ops! Algo deu errado ao cadastrar a atividade."
+        type="error"
+        isVisible={showErrorMessage}
+        onClose={() => setShowErrorMessage(false)}
+      />
     </View>
   );
 }

@@ -9,13 +9,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
-import register from "../../service/registerController";
+import cadastrarUsuario from "../../service/registerController";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mensagem, setMensagem] = useState("");
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const navigation = useNavigation();
 
@@ -26,14 +29,15 @@ export default function Login() {
         return;
       }
 
-      const result = await cadastrarUsuario(username, password);
+      const result = await cadastrarUsuario(
+        username,
+        password,
+        confirmPassword
+      );
 
       if (result.success) {
         // Mostra a mensagem de sucesso
-        setMensagem(
-          "Cadastro realizado com sucesso! Redirecionando para o Dashboard."
-        );
-        // Agora, após um curto intervalo, redireciona para a tela de dashboard
+        setShowSuccessMessage(true);
         setTimeout(() => {
           navigation.navigate("dashboard");
         }, 2000);
@@ -42,7 +46,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Erro no cadastro:", error);
-      setMensagem("Erro ao tentar cadastrar. Por favor, tente novamente.");
+      setShowErrorMessage(true);
     }
   };
 
@@ -99,6 +103,19 @@ export default function Login() {
           </Text>
         </TouchableOpacity>
       </Text>
+
+      <MessageComponent
+        message="Cadastro realizado com sucesso! Redirecionando para o Dashboard."
+        type="success"
+        isVisible={showSuccessMessage}
+        onClose={() => setShowSuccessMessage(false)}
+      />
+      <MessageComponent
+        message="Erro ao tentar cadastrar. Por favor, tente novamente."
+        type="error"
+        isVisible={showErrorMessage}
+        onClose={() => setShowErrorMessage(false)}
+      />
     </View>
   );
 }

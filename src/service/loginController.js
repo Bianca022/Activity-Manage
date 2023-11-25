@@ -2,7 +2,7 @@ import { apiConnection } from "../config/api";
 
 export const login = async (username, password) => {
   try {
-    const response = await apiConnection.post("/api/login", {
+    const response = await apiConnection.post("./routes/loginRoutes", {
       username,
       password,
     });

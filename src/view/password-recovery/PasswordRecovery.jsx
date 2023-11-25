@@ -14,13 +14,8 @@ export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    if (username === "Bianca" && password === "123") {
-      navigation.navigate("Dashboard");
-    } else {
-      alert("Usuário inválido. Verifique a senha ou nome de usuário");
-    }
-  };
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -58,6 +53,19 @@ export default function Login({ navigation }) {
           </Text>
         </TouchableOpacity>
       </Text>
+
+      <MessageComponent
+        message="Cadastro realizado com sucesso! Redirecionando para o Dashboard."
+        type="success"
+        isVisible={showSuccessMessage}
+        onClose={() => setShowSuccessMessage(false)}
+      />
+      <MessageComponent
+        message="Erro ao tentar cadastrar. Por favor, tente novamente."
+        type="error"
+        isVisible={showErrorMessage}
+        onClose={() => setShowErrorMessage(false)}
+      />
     </View>
   );
 }

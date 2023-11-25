@@ -3,15 +3,11 @@ import React, { useState } from "react";
 
 import Menu from "../../components/Menu";
 import TaskConcluded from "./componentes/taskConcluded";
-import Task from "./componentes/task";
 
 export default function ScreenTask() {
   return (
     <View style={styles.container}>
       <TaskConcluded></TaskConcluded>
-      <TaskConcluded></TaskConcluded>
-      <Task></Task>
-      <Task></Task>
       <Menu></Menu>
     </View>
   );

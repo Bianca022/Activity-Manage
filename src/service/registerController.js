@@ -2,7 +2,7 @@ import { apiConnection } from "../config/api";
 
 export const cadastrarUsuario = async (FormData) => {
   try {
-    const response = await apiConnection.post("/api/register", {
+    const response = await apiConnection.post("./routes/registerRoutes", {
       FormData,
     });
 
