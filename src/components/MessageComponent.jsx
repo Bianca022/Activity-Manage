@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   messageContainer: {
     position: "absolute",
     bottom: 700,
-    left: 40,
+    left: 30,
     padding: 10,
     borderRadius: 5,
     backgroundColor: "white",

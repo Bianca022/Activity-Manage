@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
-import { useNavigation } from "@react-navigation/native";
 import login from "../../service/loginController";
+
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -73,7 +74,7 @@ export default function Login() {
         <Text style={styles.buttonText}>ENTRAR</Text>
       </TouchableOpacity>
       <Text style={styles.textCenter}>
-        Não é membro? {""}
+        Não é membro?
         <TouchableOpacity onPress={() => navigation.navigate("register")}>
           <Text
             style={{

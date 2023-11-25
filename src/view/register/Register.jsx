@@ -9,7 +9,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
-import cadastrarUsuario from "../../service/registerController";
+import cadastroUser from "../../service/registerController";
+
+import MessageComponent from "../../components/MessageComponent";
+
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -29,11 +33,13 @@ export default function Login() {
         return;
       }
 
-      const result = await cadastrarUsuario(
+      const formData = {
         username,
         password,
-        confirmPassword
-      );
+        confirmPassword,
+      };
+
+      const result = await cadastroUser(formData);
 
       if (result.success) {
         // Mostra a mensagem de sucesso

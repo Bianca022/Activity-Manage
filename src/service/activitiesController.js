@@ -1,10 +1,11 @@
 import { apiConnection } from "../config/api";
+import axios from "axios";
 
 export const cadastrarAtividade = async (formData) => {
   try {
     console.log("Enviando dados para a API:", formData);
 
-    const response = await apiConnection.post("./routes/activitiesRoutes", {
+    const response = await axios.post("http://localhost:3000/api/add", {
       formData,
     });
 
@@ -24,12 +25,12 @@ export const cadastrarAtividade = async (formData) => {
 };
 
 //Rota delete
-export const deletePosition = async (activityId) => {
+export const deletePosition = async (id) => {
   try {
-    console.log("Enviando dados para a API delete, ID:", activityId);
+    console.log("Enviando dados para a API delete, ID:", id);
 
-    const response = await apiConnection.delete(
-      `./routes/deleteRoutes/${activityId}`
+    const response = await axios.delete(
+      `http://localhost:3000/api/delete/${id}`
     );
 
     if (response.status === 200) {
@@ -50,8 +51,8 @@ export const updatePosition = async (formData) => {
   try {
     console.log("Enviando dados para a API edit:", formData);
 
-    const response = await apiConnection.patch(
-      "./routes/activitiesEditRoutes",
+    const response = await axios.patch(
+      "http://localhost:3000/api/activities/edit/{id}",
       {
         formData,
       }
@@ -72,7 +73,7 @@ export const updatePosition = async (formData) => {
 //Rota de visualizar
 export const fetchDataPositions = async () => {
   try {
-    const response = await apiConnection.get("./routes/activitiesViewRoutes");
+    const response = await axios.get("http://localhost:3000/api/activities");
 
     if (response.status === 200) {
       return { success: true, data: response.data };

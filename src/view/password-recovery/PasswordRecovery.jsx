@@ -10,6 +10,10 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
 
+import MessageComponent from "../../components/MessageComponent";
+
+import { useNavigation } from "@react-navigation/native";
+
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

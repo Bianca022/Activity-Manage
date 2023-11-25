@@ -4,9 +4,12 @@ export const cadastroUser = async (formData) => {
   try {
     console.log("Enviando dados para a API:", formData);
 
-    const response = await apiConnection.post("./routes/resetPasswordRoutes", {
-      formData,
-    });
+    const response = await apiConnection.post(
+      "http://localhost:3000/api/reset-password",
+      {
+        formData,
+      }
+    );
 
     if (response.status === 200) {
       console.log("Usuário cadastrado com sucesso:", response.data.message);
