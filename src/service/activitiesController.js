@@ -5,9 +5,15 @@ export const cadastrarAtividade = async (formData) => {
   try {
     console.log("Enviando dados para a API:", formData);
 
-    const response = await axios.post("http://localhost:3000/api/add", {
+    const response = await axios.post(
+      "http://localhost:3000/api/add",
       formData,
-    });
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     if (response.status === 200) {
       console.log("Atividade cadastrada com sucesso:", response.data.message);
@@ -71,17 +77,44 @@ export const updatePosition = async (formData) => {
 };
 
 //Rota de visualizar
-export const fetchDataPositions = async () => {
+export const fetchDataTask = async () => {
   try {
+    console.log("Antes da chamada axios.get");
     const response = await axios.get("http://localhost:3000/api/activities");
+    console.log("Resposta da chamada axios.get:", response);
 
-    if (response.status === 200) {
+    if (response.data) {
+      console.log("Atividades recuperadas:", response.data.activities);
       return { success: true, data: response.data };
+    } else {
+      console.error(
+        "Erro ao visualizar atividade. Resposta sem dados:",
+        response
+      );
+      return {
+        success: false,
+        message: "Resposta sem dados válidos",
+      };
     }
-
-    return response.data;
   } catch (error) {
-    console.error("Erro ao visualizar atividade:", error);
-    throw error;
+    if (error.response) {
+      // O servidor respondeu com um status diferente de 2xx
+      console.error(
+        "Erro ao visualizar atividade. Resposta não 2xx:",
+        error.response.status
+      );
+      return {
+        success: false,
+        message: `Erro de resposta da API: ${error.response.status}`,
+      };
+    } else if (error.request) {
+      // A requisição foi feita, mas não houve resposta do servidor
+      console.error("Erro ao visualizar atividade. Sem resposta do servidor.");
+      return { success: false, message: "Sem resposta do servidor" };
+    } else {
+      // Algo aconteceu na configuração da requisição que causou o erro
+      console.error("Erro ao visualizar atividade:", error.message);
+      return { success: false, message: error.message };
+    }
   }
 };

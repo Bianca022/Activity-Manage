@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const cadastroUser = async (formData) => {
+const cadastroUser = async (formData) => {
   try {
     console.log("Enviando dados para a API:", formData);
 
@@ -28,3 +28,5 @@ export const cadastroUser = async (formData) => {
     throw error;
   }
 };
+
+export default cadastroUser;

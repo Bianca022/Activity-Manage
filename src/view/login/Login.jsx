@@ -8,13 +8,13 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
+import Icon from "react-native-vector-icons/FontAwesome";
 import login from "../../service/loginController";
 
 import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
@@ -29,7 +29,7 @@ export default function Login() {
 
   const handleLogin1 = async () => {
     try {
-      const result = await login(username, password);
+      const result = await login(email, password);
 
       // Lógica de sucesso no login
       if (result.success) {
@@ -54,8 +54,8 @@ export default function Login() {
         <Icon name="user" size={20} style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="USUARIO"
-          onChangeText={(text) => setUsername(text)}
+          placeholder="EMAIL"
+          onChangeText={(text) => setEmail(text)}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -70,7 +70,7 @@ export default function Login() {
       <TouchableOpacity onPress={() => navigation.navigate("passwordRecovery")}>
         <Text style={styles.textRight}>Esqueci minha senha</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin1}>
         <Text style={styles.buttonText}>ENTRAR</Text>
       </TouchableOpacity>
       <Text style={styles.textCenter}>

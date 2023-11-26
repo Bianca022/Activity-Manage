@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Importe o ícone FontAwesome (ou outro de sua escolha)
-import cadastroUser from "../../service/registerController";
+import cadastroUser from "../../service/registerUserController";
 
 import MessageComponent from "../../components/MessageComponent";
 

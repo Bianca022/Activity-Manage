@@ -1,9 +1,9 @@
-import { apiConnection } from "../config/api";
+import axios from "axios";
 
-export const login = async (username, password) => {
+const login = async (email, password) => {
   try {
-    const response = await apiConnection.post("./routes/loginRoutes", {
-      username,
+    const response = await axios.post("http://localhost:3000/api/login", {
+      email,
       password,
     });
 
@@ -21,3 +21,5 @@ export const login = async (username, password) => {
     throw error;
   }
 };
+
+export default login;

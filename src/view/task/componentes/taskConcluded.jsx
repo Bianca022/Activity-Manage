@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   StyleSheet,
   Text,
@@ -13,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {
   deletePosition,
   updatePosition,
-  fetchDataPositions,
+  fetchDataTask,
 } from "../../../service/activitiesController";
 
 import MessageComponent from "../../../components/MessageComponent";
@@ -87,32 +88,30 @@ export default function Task() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await fetchDataPositions();
+        const response = await axios.get(
+          "http://localhost:3000/api/activities"
+        );
 
-        if (result.success) {
-          setAtividades(result.data);
+        if (response.status === 200) {
+          setAtividades(response.data.activities);
+          console.log("Atividades recuperadas:", response.data.activities);
         } else {
-          setError(result);
+          setError({
+            success: false,
+            message: `Erro de resposta da API: ${response.status}`,
+          });
         }
 
         setLoading(false);
       } catch (error) {
         console.error("Erro ao carregar atividades:", error);
-        setError(error);
+        setError({ success: false, message: error.message });
         setLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
-  if (loading) {
-    return <Text>Carregando...</Text>;
-  }
-
-  if (error) {
-    return <Text>Ocorreu um erro: {error.message}</Text>;
-  }
 
   return (
     <View style={styles.container}>
