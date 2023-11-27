@@ -11,6 +11,8 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import login from "../../service/loginController";
 
+import axios from "axios";
+
 import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
@@ -29,10 +31,15 @@ export default function Login() {
 
   const handleLogin1 = async () => {
     try {
-      const result = await login(email, password);
+      // Fazer a requisição para a rota de login
+      const response = await axios.post("http://localhost:3000/api/login", {
+        email,
+        password,
+      });
 
-      // Lógica de sucesso no login
-      if (result.success) {
+      // Verificar a resposta da requisição
+      if (response.data.success) {
+        // Lógica de sucesso no login
         navigation.navigate("dashboard");
       } else {
         alert("Usuário inválido. Verifique a senha ou nome de usuário");

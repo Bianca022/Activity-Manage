@@ -6,6 +6,7 @@ const login = async (email, password) => {
       email,
       password,
     });
+    console.log(response);
 
     if (response.status === 200) {
       console.log("Login bem-sucedido:", response.data.message);
